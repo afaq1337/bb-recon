@@ -9,7 +9,7 @@ normal=`echo -en "\e[0m"`
 input=$1
 if [ -z "$input" ]
   then
-    echo "${red} [+] No domain name supplied"
+    echo "${red} [+] No domain name supplied!"
     exit 1
 fi
 
@@ -47,6 +47,7 @@ echo ""
 echo "${bold}+---------------------------Running Nuclei----------------------------+${normal}"
 echo "${green}"
 cat $input.httpx | nuclei -t ~/nuclei-templates -silent -stats | tee $input.nuclei | notify -silent
+echo "${normal}"
 }
 nuclei_scan
 
@@ -54,6 +55,6 @@ jaeles_scan() {
 echo ""
 echo "${bold}+---------------------------Running Jaeles----------------------------+${normal}"
 echo ""
-cat $input.nuclei | cut -d " " -f4 | jaeles scan -s ~/.jaeles/base-signatures/ | notify -silent
+cat $input.nuclei | cut -d " " -f4 | jaeles scan -s ~/.jaeles/base-signatures/ | tee $input.jaeles | notify -silent
 }
 jaeles_scan
